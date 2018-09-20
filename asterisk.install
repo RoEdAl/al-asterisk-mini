@@ -1,0 +1,13 @@
+post_install() {
+    post_upgrade
+}
+
+post_remove() {
+    killall -q asterisk
+}
+
+post_upgrade() {
+    /usr/bin/chown -R 890:890 /etc/asterisk
+    /usr/bin/chown -R 890:890 /var/lib/asterisk
+    /usr/bin/chown -R 890:890 /var/spool/asterisk
+}
