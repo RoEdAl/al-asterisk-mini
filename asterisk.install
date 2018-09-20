@@ -7,7 +7,9 @@ post_remove() {
 }
 
 post_upgrade() {
-    /usr/bin/chown -R 890:890 /etc/asterisk
-    /usr/bin/chown -R 890:890 /var/lib/asterisk
-    /usr/bin/chown -R 890:890 /var/spool/asterisk
+    /usr/bin/systemd-sysusers asterisk.conf
+
+    /usr/bin/chown -R asterisk:asterisk /etc/asterisk
+    /usr/bin/chown -R asterisk:asterisk /var/lib/asterisk
+    /usr/bin/chown -R asterisk:asterisk /var/spool/asterisk
 }

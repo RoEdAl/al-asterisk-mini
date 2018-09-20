@@ -33,7 +33,7 @@ install=asterisk.install
 
 _ast_dl='http://downloads.asterisk.org/pub/telephony'
 _pjp_dl='http://www.pjsip.org/release'
-_mini_ver='1.3'
+_mini_ver='1.4'
 source=("${_ast_dl}/asterisk/releases/asterisk-${pkgver}.tar.gz"
         "${_pjp_dl}/2.7.2/pjproject-2.7.2.tar.bz2"
 	"pjproject-2.7.md5::${_pjp_dl}/2.7/MD5SUM.TXT"
@@ -43,8 +43,7 @@ source=("${_ast_dl}/asterisk/releases/asterisk-${pkgver}.tar.gz"
 	"${_ast_dl}/sounds/releases/asterisk-extra-sounds-en-gsm-1.5.2.tar.gz.sha1"
 	"${_ast_dl}/sounds/releases/asterisk-moh-opsound-gsm-2.03.tar.gz"
 	"${_ast_dl}/sounds/releases/asterisk-moh-opsound-gsm-2.03.tar.gz.sha1"
-	"asterisk-mini-${_mini_ver}.tar.gz::http://github.com/RoEdAl/asterisk-mini/archive/v${_mini_ver}.tar.gz"
-        'asterisk.sysusers')
+	"asterisk-mini-${_mini_ver}.tar.gz::http://github.com/RoEdAl/asterisk-mini/archive/v${_mini_ver}.tar.gz")
 sha256sums=('6620af9749524152a793ecc4ade4604064254cb46e642d50d280d56f6b7eed3e'
             '9c2c828abab7626edf18e04b041ef274bfaa86f99adf2c25ff56f1509e813772'
             'abbf4829cfa938595df431de10e45d291a153b0ee6ec4cafdd64e5b46f540696'
@@ -54,8 +53,7 @@ sha256sums=('6620af9749524152a793ecc4ade4604064254cb46e642d50d280d56f6b7eed3e'
             '92c00ca0148f11e85a3af8bfa6ceb4e6091cb1c053a7e29c88484192c1d9ff25'
             'b0fb7b52b05094a3d5298c965e98717f9907d65a9ec47604ac05d8b06a96e940'
             '5db48fc22600cbf3d0ca4da298627c2a35b89b9e9f8ea1d24c466a5b0362cde0'
-            'a60898e39c71ccf17bba9eaa6ade9a911305ecbcd90ce2d58cd64a6f327d8b39'
-            '25315b22ab0a9eb68b9fb15838177789245eb71ece005f2e8dcc9154f3b1629e')
+            'f19924995d023d9a378566292e9765fd2a3672c78859802274cb0cb0a440c6fb')
 noextract=(
 	'pjproject-2.7.2.tar.bz2'
 	'asterisk-core-sounds-en-gsm-1.6.1.tar.gz'
@@ -77,24 +75,28 @@ package(){
   make DESTDIR=${pkgdir} install
 
   mv ${pkgdir}/var/run ${pkgdir}
+  rm -rf ${pkgdir}/run
+  rm -rf ${pkgdir}/var/log/asterisk
+
+  cd ${srcdir}/asterisk-mini-${_mini_ver}
+
+  install -D -m 644 systemd/sysusers.d/asterisk.conf ${pkgdir}/usr/lib/sysusers.d/asterisk.conf
 
   for conf in asterisk alsa cdr cdr_adaptive_odbc cdr_syslog cel cel_odbc confbridge extensions indications logger modules musiconhold pjsip res_odbc voicemail; do
-      install -D -m 644 ${srcdir}/asterisk-mini-${_mini_ver}/asterisk/${conf}.conf ${pkgdir}/etc/asterisk/${conf}.conf
+      install -D -m 644 asterisk/${conf}.conf ${pkgdir}/etc/asterisk/${conf}.conf
   done
 
-  install -D -m 644 ${srcdir}/asterisk.sysusers ${pkgdir}/usr/lib/sysusers.d/asterisk.conf
+  install -D -m 644 systemd/asterisk.service ${pkgdir}/usr/lib/systemd/system/asterisk.service
+  install -D -m 644 systemd/asterisk.service.d/cpu-scheduling-policy.conf ${pkgdir}/usr/lib/systemd/system/asterisk.service.d/cpu-scheduling-policy.conf
+  install -D -m 644 systemd/postgresql.service.d/cpu-scheduling-policy.conf ${pkgdir}/usr/lib/systemd/system/postgresql.service.d/cpu-scheduling-policy.conf
 
-  install -D -m 644 ${srcdir}/asterisk-mini-${_mini_ver}/systemd/asterisk.service ${pkgdir}/usr/lib/systemd/system/asterisk.service
-  install -D -m 644 ${srcdir}/asterisk-mini-${_mini_ver}/systemd/asterisk.service.d/cpu-scheduling-policy.conf ${pkgdir}/usr/lib/systemd/system/asterisk.service.d/cpu-scheduling-policy.conf
-  install -D -m 644 ${srcdir}/asterisk-mini-${_mini_ver}/systemd/postgresql.service.d/cpu-scheduling-policy.conf ${pkgdir}/usr/lib/systemd/system/postgresql.service.d/cpu-scheduling-policy.conf
+  install -D -m 644 alsa/modules-load.d/snd-dummy.conf ${pkgdir}/etc/modules-load.d/snd-dummy.conf
+  install -D -m 644 alsa/modprobe.d/snd-dummy.conf ${pkgdir}/etc/modprobe.d/snd-dummy.conf
 
-  install -D -m 644 ${srcdir}/asterisk-mini-${_mini_ver}/alsa/modules-load.d/snd-dummy.conf ${pkgdir}/etc/modules-load.d/snd-dummy.conf
-  install -D -m 644 ${srcdir}/asterisk-mini-${_mini_ver}/alsa/modprobe.d/snd-dummy.conf ${pkgdir}/etc/modprobe.d/snd-dummy.conf
-
-  install -D -m 644 ${srcdir}/asterisk-mini-${_mini_ver}/odbc/odbcinst.ini ${pkgdir}/usr/share/asterisk-mini/odbc/odbcinst.ini
-  install -D -m 644 ${srcdir}/asterisk-mini-${_mini_ver}/odbc/odbc.ini ${pkgdir}/usr/share/asterisk-mini/odbc/odbc.ini
+  install -D -m 644 odbc/odbcinst.ini ${pkgdir}/usr/share/asterisk-mini/odbc/odbcinst.ini
+  install -D -m 644 odbc/odbc.ini ${pkgdir}/usr/share/asterisk-mini/odbc/odbc.ini
 
   for sql in cdr cel voicemessages; do
-      install -D -m 644 ${srcdir}/asterisk-mini-${_mini_ver}/postgresql/postgresql-${sql}.sql ${pkgdir}/usr/share/asterisk-mini/postgresql/postgresql-${sql}.sql
+      install -D -m 644 postgresql/postgresql-${sql}.sql ${pkgdir}/usr/share/asterisk-mini/postgresql/postgresql-${sql}.sql
   done
 }
