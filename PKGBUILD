@@ -33,7 +33,7 @@ install=asterisk.install
 
 _ast_dl='http://downloads.asterisk.org/pub/telephony'
 _pjp_dl='http://www.pjsip.org/release'
-_mini_ver='1.4'
+_mini_ver='1.0'
 source=("${_ast_dl}/asterisk/releases/asterisk-${pkgver}.tar.gz"
         "${_pjp_dl}/2.7.2/pjproject-2.7.2.tar.bz2"
 	"pjproject-2.7.md5::${_pjp_dl}/2.7/MD5SUM.TXT"
@@ -53,7 +53,7 @@ sha256sums=('6620af9749524152a793ecc4ade4604064254cb46e642d50d280d56f6b7eed3e'
             '92c00ca0148f11e85a3af8bfa6ceb4e6091cb1c053a7e29c88484192c1d9ff25'
             'b0fb7b52b05094a3d5298c965e98717f9907d65a9ec47604ac05d8b06a96e940'
             '5db48fc22600cbf3d0ca4da298627c2a35b89b9e9f8ea1d24c466a5b0362cde0'
-            'f19924995d023d9a378566292e9765fd2a3672c78859802274cb0cb0a440c6fb')
+            '22ad648e4b194231732777f9ade5dfc1375d70719c0ac3010bb8668ffc583ba1')
 noextract=(
 	'pjproject-2.7.2.tar.bz2'
 	'asterisk-core-sounds-en-gsm-1.6.1.tar.gz'
