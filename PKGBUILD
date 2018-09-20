@@ -26,9 +26,9 @@ url='http://www.asterisk.org'
 license=('GPL')
 conflicts=('asterisk')
 provides=('asterisk')
-depends=('popt' 'libxml2' 'jansson' 'libxslt' 'gsm' 'sqlite3' 'libilbc' 'unixodbc')
-makedepends=('speex' 'unixodbc' 'alsa-lib' 'libvorbis' 'curl' 'lua' 'opus' 'libsrtp' 'libilbc' 'postgresql-libs')
-optdepends=('lua' 'libsrtp' 'postgresql' 'psqlodbc' 'libpri' 'libss7' 'openr2' 'iksemel' 'radiusclient-ng' 'dahdi' 'speex' 'alsa-lib' 'libvorbis' 'opus' 'curl')
+depends=('popt' 'libxml2' 'jansson' 'libxslt' 'gsm' 'sqlite3' 'libilbc' 'unixodbc' 'zlib')
+makedepends=('speexdsp' 'unixodbc' 'alsa-lib' 'libvorbis' 'curl' 'lua' 'opus' 'libsrtp' 'libilbc' 'postgresql-libs')
+optdepends=('lua' 'libsrtp' 'postgresql' 'psqlodbc' 'libpri' 'libss7' 'openr2' 'iksemel' 'radiusclient-ng' 'dahdi' 'speex' 'speexdsp' 'alsa-lib' 'libvorbis' 'opus' 'curl')
 install=asterisk.install
 
 _ast_dl='http://downloads.asterisk.org/pub/telephony'
@@ -62,7 +62,28 @@ noextract=(
 
 build() {
   cd asterisk-${pkgver}
-  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --with-externals-cache=${srcdir} --with-sounds-cache=${srcdir}
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --bindir=/usr/bin \
+    --sbindir=/usr/bin \
+    --with-externals-cache=${srcdir} \
+    --with-sounds-cache=${srcdir} \
+    --without-oss \
+    --without-portaudio \
+    --without-jack \
+    --without-x11 \
+    --without-gtk2 \
+    --without-sdl \
+    --without-avcodec \
+    --without-bluetooth \
+    --without-iodbc \
+    --without-sqlite \
+    --without-speex \
+    --without-sndfile \
+    --without-mysqlclient
+
   make menuselect.makeopts
   menuselect/menuselect --enable ODBC_STORAGE menuselect.makeopts
   menuselect/menuselect --disable MOH-OPSOUND-WAV --enable MOH-OPSOUND-GSM menuselect.makeopts
