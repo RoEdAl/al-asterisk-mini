@@ -27,8 +27,8 @@ license=('GPL')
 conflicts=('asterisk')
 provides=('asterisk')
 depends=('popt' 'libxml2' 'jansson' 'libxslt' 'gsm' 'sqlite3' 'libilbc' 'unixodbc')
-makedepends=('speex' 'unixodbc' 'alsa-lib' 'libvorbis' 'curl' 'lua' 'opus' 'libsrtp' 'libilbc')
-optdepends=('lua' 'libsrtp' 'postgresql' 'libpri' 'libss7' 'openr2' 'iksemel' 'radiusclient-ng' 'dahdi' 'speex' 'alsa-lib' 'libvorbis' 'opus' 'curl')
+makedepends=('speex' 'unixodbc' 'alsa-lib' 'libvorbis' 'curl' 'lua' 'opus' 'libsrtp' 'libilbc' 'postgresql-libs')
+optdepends=('lua' 'libsrtp' 'postgresql' 'psqlodbc' 'libpri' 'libss7' 'openr2' 'iksemel' 'radiusclient-ng' 'dahdi' 'speex' 'alsa-lib' 'libvorbis' 'opus' 'curl')
 install=asterisk.install
 
 _ast_dl='http://downloads.asterisk.org/pub/telephony'
