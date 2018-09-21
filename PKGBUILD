@@ -25,7 +25,7 @@ backup=('etc/asterisk/asterisk.conf'
 url='http://www.asterisk.org'
 license=('GPL')
 conflicts=('asterisk')
-provides=('asterisk')
+provides=("asterisk=${pkgver}")
 depends=('popt' 'libxml2' 'jansson' 'libxslt' 'gsm' 'sqlite3' 'libilbc' 'unixodbc' 'zlib')
 makedepends=('speexdsp' 'speex' 'alsa-lib' 'curl' 'lua' 'libsrtp')
 optdepends=('lua' 'libsrtp' 'psqlodbc' 'mariadb-connector-odbc' 'sqliteodbc' 'speexdsp' 'alsa-lib' 'curl')
