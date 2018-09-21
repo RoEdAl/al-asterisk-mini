@@ -27,8 +27,8 @@ license=('GPL')
 conflicts=('asterisk')
 provides=('asterisk')
 depends=('popt' 'libxml2' 'jansson' 'libxslt' 'gsm' 'sqlite3' 'libilbc' 'unixodbc' 'zlib')
-makedepends=('speexdsp' 'unixodbc' 'alsa-lib' 'libvorbis' 'curl' 'lua' 'opus' 'libsrtp' 'libilbc' 'postgresql-libs')
-optdepends=('lua' 'libsrtp' 'postgresql' 'psqlodbc' 'libpri' 'libss7' 'openr2' 'iksemel' 'radiusclient-ng' 'dahdi' 'speex' 'speexdsp' 'alsa-lib' 'libvorbis' 'opus' 'curl')
+makedepends=('speexdsp' 'speex' 'unixodbc' 'alsa-lib' 'libvorbis' 'curl' 'lua' 'libsrtp')
+optdepends=('lua' 'libsrtp' 'psqlodbc' 'libpri' 'libss7' 'dahdi' 'speexdsp' 'alsa-lib' 'libvorbis' 'curl' 'soxr')
 install=asterisk.install
 
 _ast_dl='http://downloads.asterisk.org/pub/telephony'
@@ -70,22 +70,54 @@ build() {
     --sbindir=/usr/bin \
     --with-externals-cache=${srcdir} \
     --with-sounds-cache=${srcdir} \
+    --disable-xmldoc \
+    --disable-internal-poll \
+    --disable-asteriskssl \
+    --without-curses \
     --without-oss \
     --without-portaudio \
     --without-jack \
     --without-x11 \
+    --without-vpb \
     --without-gtk2 \
+    --without-gmime \
     --without-sdl \
     --without-avcodec \
     --without-bluetooth \
     --without-iodbc \
+    --without-imap \
+    --without-inotify \
     --without-sqlite \
-    --without-speex \
     --without-sndfile \
-    --without-mysqlclient
+    --without-mysqlclient \
+    --without-posgres \
+    --without-iksemel \
+    --without-openr2 \
+    --without-radius \
+    --without-resample \
+    --without-spandsp \
+    --without-tds \
+    --without-neon29 \
+    --without-neon \
+    --without-pri \
+    --without-ss7 \
+    --without-dahdi \
+    --without-misdn \
+    --without-tonezone \
+    --without-fftw3 \
+    --without-libedit \
+    --without-unbound \
+    --without-opus \
+    --without-opusfile
 
   make menuselect.makeopts
   menuselect/menuselect --enable ODBC_STORAGE menuselect.makeopts
+  menuselect/menuselect --disable codec_speex --enable func_speex --disable format_ogg_speex menuselect.makeopts
+  menuselect/menuselect --disable format_jpeg --disable format_ogg_vorbis --disable format_siren7 --disable format_siren14 menuselect.makeopts
+  menuselect/menuselect --disable format_g719 --disable format_g723 --disable format_g729 --disable format_h263 --disable format_h264 menuselect.makeopts
+  menuselect/menuselect --disable res_format_attr_opus --disable res_fax --disable res_format_attr_h263 --disable res_format_attr_h264 menuselect.makeopts
+  menuselect/menuselect --disable app_festival --disable app_mp3 --disable app_ices --disable app_image menuselect.makeopts
+  menuselect/menuselect --disable astcanary --disable astdb2sqlite3 --disable astdb2bdb menuselect.makeopts
   menuselect/menuselect --disable MOH-OPSOUND-WAV --enable MOH-OPSOUND-GSM menuselect.makeopts
   menuselect/menuselect --disable EXTRA-SOUNDS-EN-WAV --enable EXTRA-SOUNDS-EN-GSM menuselect.makeopts
   make
