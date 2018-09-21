@@ -90,7 +90,7 @@ build() {
     --without-sqlite \
     --without-sndfile \
     --without-mysqlclient \
-    --without-posgres \
+    --without-postgres \
     --without-iksemel \
     --without-openr2 \
     --without-radius \
