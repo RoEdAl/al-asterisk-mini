@@ -117,7 +117,7 @@ build() {
   menuselect/menuselect --disable format_g719 --disable format_g723 --disable format_g729 --disable format_h263 --disable format_h264 menuselect.makeopts
   menuselect/menuselect --disable res_format_attr_opus --disable res_fax --disable res_format_attr_h263 --disable res_format_attr_h264 menuselect.makeopts
   menuselect/menuselect --disable res_config_pgsql --disable res_format_attr_siren14 --disable res_format_attr_siren7 --disable res_format_attr_vp8 menuselect.makeopts
-  menuselect/menuselect --disable res_speech --disable res_timing_timerfd --disable res_config_ldap --disable res_format_attr_silk menuselect.makeopts
+  menuselect/menuselect --disable res_speech --disable res_config_ldap --disable res_format_attr_silk menuselect.makeopts
   menuselect/menuselect --disable app_festival --disable app_mp3 --disable app_ices --disable app_image menuselect.makeopts
   menuselect/menuselect --disable astcanary --disable astdb2sqlite3 --disable astdb2bdb menuselect.makeopts
   menuselect/menuselect --disable MOH-OPSOUND-WAV --enable MOH-OPSOUND-GSM menuselect.makeopts
