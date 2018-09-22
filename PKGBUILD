@@ -60,7 +60,7 @@ noextract=(
 	'asterisk-extra-sounds-en-gsm-1.5.2.tar.gz'
 	'asterisk-moh-opsound-gsm-2.03.tar.gz')
 
-build() {
+prepare(){
   cd asterisk-${pkgver}
   ./configure \
     --prefix=/usr \
@@ -124,6 +124,10 @@ build() {
   menuselect/menuselect --disable astcanary --disable astdb2sqlite3 --disable astdb2bdb menuselect.makeopts
   menuselect/menuselect --disable MOH-OPSOUND-WAV --enable MOH-OPSOUND-GSM menuselect.makeopts
   menuselect/menuselect --disable EXTRA-SOUNDS-EN-WAV --enable EXTRA-SOUNDS-EN-GSM menuselect.makeopts
+}
+
+build(){
+  cd asterisk-${pkgver}
   make
 }
 
