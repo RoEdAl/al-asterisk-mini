@@ -26,9 +26,9 @@ url='http://www.asterisk.org'
 license=('GPL')
 conflicts=('asterisk')
 provides=("asterisk=${pkgver}")
-depends=('popt' 'libxml2' 'jansson' 'libxslt' 'gsm' 'sqlite3' 'libilbc' 'unixodbc' 'zlib')
-makedepends=('speexdsp' 'speex' 'alsa-lib' 'curl' 'lua' 'libsrtp')
-optdepends=('lua' 'libsrtp' 'psqlodbc' 'mariadb-connector-odbc' 'sqliteodbc' 'speexdsp' 'alsa-lib' 'curl')
+depends=('popt' 'libxml2' 'jansson' 'libxslt' 'sqlite3' 'zlib' 'gsm' 'libilbc' 'unixodbc')
+makedepends=('alsa-lib' 'curl' 'lua' 'libsrtp' 'speexdsp' 'speex')
+optdepends=('alsa-lib' 'curl' 'lua' 'libsrtp' 'psqlodbc' 'mariadb-connector-odbc' 'sqliteodbc' 'speexdsp' 'asterisk-g72x')
 install='asterisk.install'
 
 _ast_dl='http://downloads.asterisk.org/pub/telephony'
@@ -116,7 +116,7 @@ build() {
   menuselect/menuselect --enable ODBC_STORAGE menuselect.makeopts
   menuselect/menuselect --disable codec_speex --enable func_speex  menuselect.makeopts
   menuselect/menuselect --disable format_jpeg --disable format_siren7 --disable format_siren14 menuselect.makeopts
-  menuselect/menuselect --disable format_g719 --disable format_g723 --disable format_g729 --disable format_h263 --disable format_h264 menuselect.makeopts
+  menuselect/menuselect --disable format_g719 --disable format_g723 --disable format_h263 --disable format_h264 menuselect.makeopts
   menuselect/menuselect --disable res_format_attr_opus --disable res_fax --disable res_format_attr_h263 --disable res_format_attr_h264 menuselect.makeopts
   menuselect/menuselect --disable res_config_pgsql --disable res_format_attr_siren14 --disable res_format_attr_siren7 --disable res_format_attr_vp8 menuselect.makeopts
   menuselect/menuselect --disable res_speech --disable res_config_ldap --disable res_format_attr_silk menuselect.makeopts
