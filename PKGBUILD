@@ -1,7 +1,7 @@
-pkgname=asterisk-mini
-pkgver=15.6.0
+pkgname='asterisk-mini'
+pkgver='15.6.0'
 pkgrel=1
-pkgdesc="A complete PBX solution"
+pkgdesc='A complete PBX solution'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
 backup=('etc/asterisk/asterisk.conf'
         'etc/asterisk/alsa.conf'
@@ -26,9 +26,9 @@ url='http://www.asterisk.org'
 license=('GPL')
 conflicts=('asterisk')
 provides=("asterisk=${pkgver}")
-depends=('popt' 'libxml2' 'jansson' 'libxslt' 'sqlite3' 'zlib' 'gsm' 'libilbc' 'unixodbc')
-makedepends=('alsa-lib' 'curl' 'lua' 'libsrtp' 'speexdsp' 'speex')
-optdepends=('alsa-lib' 'curl' 'lua' 'libsrtp' 'psqlodbc' 'mariadb-connector-odbc' 'sqliteodbc' 'speexdsp' 'asterisk-g72x')
+depends=('popt' 'libxml2' 'jansson' 'libxslt' 'sqlite3' 'zlib' 'gsm' 'libilbc' 'speexdsp' 'unixodbc')
+makedepends=('alsa-lib' 'curl' 'lua' 'libsrtp' 'speex')
+optdepends=('alsa-lib' 'curl' 'lua' 'libsrtp' 'psqlodbc' 'mariadb-connector-odbc' 'sqliteodbc' 'asterisk-g72x')
 install='asterisk.install'
 
 _ast_dl='http://downloads.asterisk.org/pub/telephony'
@@ -62,6 +62,7 @@ noextract=(
 
 prepare(){
   cd asterisk-${pkgver}
+
   ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
@@ -113,17 +114,40 @@ prepare(){
     --without-opusfile
 
   make menuselect.makeopts
-  menuselect/menuselect --enable ODBC_STORAGE menuselect.makeopts
-  menuselect/menuselect --disable codec_speex --enable func_speex  menuselect.makeopts
-  menuselect/menuselect --disable format_jpeg --disable format_siren7 --disable format_siren14 menuselect.makeopts
-  menuselect/menuselect --disable format_g719 --disable format_g723 --disable format_h263 --disable format_h264 menuselect.makeopts
-  menuselect/menuselect --disable res_format_attr_opus --disable res_fax --disable res_format_attr_h263 --disable res_format_attr_h264 menuselect.makeopts
-  menuselect/menuselect --disable res_config_pgsql --disable res_format_attr_siren14 --disable res_format_attr_siren7 --disable res_format_attr_vp8 menuselect.makeopts
-  menuselect/menuselect --disable res_speech --disable res_config_ldap --disable res_format_attr_silk menuselect.makeopts
-  menuselect/menuselect --disable app_festival --disable app_mp3 --disable app_ices --disable app_image menuselect.makeopts
-  menuselect/menuselect --disable astcanary --disable astdb2sqlite3 --disable astdb2bdb menuselect.makeopts
-  menuselect/menuselect --disable MOH-OPSOUND-WAV --enable MOH-OPSOUND-GSM menuselect.makeopts
-  menuselect/menuselect --disable EXTRA-SOUNDS-EN-WAV --enable EXTRA-SOUNDS-EN-GSM menuselect.makeopts
+  menuselect/menuselect \
+    --enable ODBC_STORAGE \
+    --disable codec_speex \
+    --enable func_speex  \
+    --disable format_jpeg \
+    --disable format_siren7 \
+    --disable format_siren14 \
+    --disable format_g719 \
+    --disable format_g723 \
+    --disable format_h263 \
+    --disable format_h264 \
+    --disable res_format_attr_opus \
+    --disable res_fax \
+    --disable res_format_attr_h263 \
+    --disable res_format_attr_h264 \
+    --disable res_config_pgsql \
+    --disable res_format_attr_siren14 \
+    --disable res_format_attr_siren7 \
+    --disable res_format_attr_vp8 \
+    --disable res_speech \
+    --disable res_config_ldap \
+    --disable res_format_attr_silk \
+    --disable app_festival \
+    --disable app_mp3 \
+    --disable app_ices \
+    --disable app_image \
+    --disable astcanary \
+    --disable astdb2sqlite3 \
+    --disable astdb2bdb \
+    --disable MOH-OPSOUND-WAV \
+    --enable MOH-OPSOUND-GSM \
+    --disable EXTRA-SOUNDS-EN-WAV \
+    --enable EXTRA-SOUNDS-EN-GSM \
+    menuselect.makeopts
 }
 
 build(){
@@ -132,14 +156,15 @@ build(){
 }
 
 package(){
-  cd ${srcdir}/asterisk-${pkgver}
+  cd asterisk-${pkgver}
+
   make DESTDIR=${pkgdir} install
 
   mv ${pkgdir}/var/run ${pkgdir}
   rm -rf ${pkgdir}/run
   rm -rf ${pkgdir}/var/log
 
-  cd ${srcdir}/asterisk-mini-${_mini_ver}
+  cd ../asterisk-mini-${_mini_ver}
 
   install -D -m 644 systemd/sysusers.d/asterisk.conf ${pkgdir}/usr/lib/sysusers.d/asterisk.conf
 
