@@ -26,9 +26,9 @@ url='http://www.asterisk.org'
 license=('GPL')
 conflicts=('asterisk')
 provides=("asterisk=${pkgver}")
-depends=('popt' 'libxml2' 'jansson' 'libxslt' 'sqlite3' 'zlib' 'gsm' 'libilbc' 'speexdsp' 'unixodbc')
-makedepends=('alsa-lib' 'curl' 'lua' 'libsrtp' 'speex')
-optdepends=('alsa-lib' 'curl' 'lua' 'libsrtp' 'psqlodbc' 'mariadb-connector-odbc' 'sqliteodbc' 'asterisk-g72x')
+depends=('popt' 'libxml2' 'jansson' 'libxslt' 'sqlite3' 'zlib' 'alsa-lib' 'gsm' 'libilbc' 'speexdsp' 'unixodbc')
+makedepends=('curl' 'lua' 'libsrtp' 'speex')
+optdepends=('alsa-utils' 'curl' 'lua' 'libsrtp' 'psqlodbc' 'mariadb-connector-odbc' 'sqliteodbc' 'asterisk-g72x')
 install='asterisk.install'
 
 _ast_dl='http://downloads.asterisk.org/pub/telephony'
