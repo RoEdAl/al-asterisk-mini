@@ -1,5 +1,6 @@
+
 pkgname='asterisk-mini'
-pkgver='15.6.0'
+pkgver='16.0.0'
 pkgrel=1
 pkgdesc='A complete PBX solution'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -26,7 +27,7 @@ url='http://www.asterisk.org'
 license=('GPL')
 conflicts=('asterisk')
 provides=("asterisk=${pkgver}")
-depends=('popt' 'libxml2' 'jansson' 'libxslt' 'sqlite3' 'zlib' 'alsa-lib' 'gsm' 'libilbc' 'speexdsp' 'unixodbc')
+depends=('popt' 'libxml2' 'jansson' 'libxslt' 'sqlite3' 'zlib' 'alsa-lib' 'gsm' 'libilbc' 'speexdsp' 'unixodbc' 'libedit')
 makedepends=('curl' 'lua' 'libsrtp' 'speex')
 optdepends=('alsa-utils' 'curl' 'lua' 'libsrtp' 'psqlodbc' 'mariadb-connector-odbc' 'sqliteodbc' 'asterisk-g72x')
 install='asterisk.install'
@@ -44,7 +45,7 @@ source=("${_ast_dl}/asterisk/releases/asterisk-${pkgver}.tar.gz"
 	"${_ast_dl}/sounds/releases/asterisk-moh-opsound-gsm-2.03.tar.gz"
 	"${_ast_dl}/sounds/releases/asterisk-moh-opsound-gsm-2.03.tar.gz.sha1"
 	"asterisk-mini-${_mini_ver}.tar.gz::http://github.com/RoEdAl/asterisk-mini/archive/v${_mini_ver}.tar.gz")
-sha256sums=('6620af9749524152a793ecc4ade4604064254cb46e642d50d280d56f6b7eed3e'
+sha256sums=('49fae7b140ef579c5a31eb77ef4e433e3a28d9db6cae1c16fe05fdf41e4b263d'
             '9c2c828abab7626edf18e04b041ef274bfaa86f99adf2c25ff56f1509e813772'
             'abbf4829cfa938595df431de10e45d291a153b0ee6ec4cafdd64e5b46f540696'
             'd79c3d2044d41da8f363c447dfccc140be86b4fcc41b1ca5a60a80da52f24f2d'
@@ -106,7 +107,6 @@ prepare(){
     --without-misdn \
     --without-tonezone \
     --without-fftw3 \
-    --without-libedit \
     --without-unbound \
     --without-vorbis \
     --without-ogg \
