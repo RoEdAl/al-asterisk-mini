@@ -1,6 +1,6 @@
 
 pkgname='asterisk-mini'
-pkgver='16.0.0'
+pkgver='16.2.0'
 pkgrel=1
 pkgdesc='A complete PBX solution'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -36,8 +36,8 @@ _ast_dl='http://downloads.asterisk.org/pub/telephony'
 _pjp_dl='http://www.pjsip.org/release'
 _mini_ver='1.1'
 source=("${_ast_dl}/asterisk/releases/asterisk-${pkgver}.tar.gz"
-        "${_pjp_dl}/2.7.2/pjproject-2.7.2.tar.bz2"
-	"pjproject-2.7.md5::${_pjp_dl}/2.7/MD5SUM.TXT"
+        "${_pjp_dl}/2.8/pjproject-2.8.tar.bz2"
+	"pjproject-2.8.md5::${_pjp_dl}/2.8/MD5SUM.TXT"
 	"${_ast_dl}/sounds/releases/asterisk-core-sounds-en-gsm-1.6.1.tar.gz"
 	"${_ast_dl}/sounds/releases/asterisk-core-sounds-en-gsm-1.6.1.tar.gz.sha1"
 	"${_ast_dl}/sounds/releases/asterisk-extra-sounds-en-gsm-1.5.2.tar.gz"
@@ -45,9 +45,9 @@ source=("${_ast_dl}/asterisk/releases/asterisk-${pkgver}.tar.gz"
 	"${_ast_dl}/sounds/releases/asterisk-moh-opsound-gsm-2.03.tar.gz"
 	"${_ast_dl}/sounds/releases/asterisk-moh-opsound-gsm-2.03.tar.gz.sha1"
 	"asterisk-mini-${_mini_ver}.tar.gz::http://github.com/RoEdAl/asterisk-mini/archive/v${_mini_ver}.tar.gz")
-sha256sums=('49fae7b140ef579c5a31eb77ef4e433e3a28d9db6cae1c16fe05fdf41e4b263d'
-            '9c2c828abab7626edf18e04b041ef274bfaa86f99adf2c25ff56f1509e813772'
-            'abbf4829cfa938595df431de10e45d291a153b0ee6ec4cafdd64e5b46f540696'
+sha256sums=('6bbe4537bd97b10bdfce5ef70524905ea27aede621c50ebf6a459d433bd74e2b'
+            '503d0bd7f9f13dc1492ac9b71b761b1089851fbb608b9a13996edc3c42006f79'
+            '291c890edd14b7a873c5c0eca67adef82eab8b3d7cb9800e6acf92731ae63a8b'
             'd79c3d2044d41da8f363c447dfccc140be86b4fcc41b1ca5a60a80da52f24f2d'
             'c5be5c60f1450419494008c195c08f8aa1e88d6d978001a310c9516f93d18bfb'
             'a872eb41868a75b8b4ea677d46f2659870c7190037e1d97853b4b060e60e9d7c'
@@ -61,8 +61,11 @@ noextract=(
 	'asterisk-extra-sounds-en-gsm-1.5.2.tar.gz'
 	'asterisk-moh-opsound-gsm-2.03.tar.gz')
 
-prepare(){
+build(){
   cd asterisk-${pkgver}
+
+  export CFLAGS="${CFLAGS} -ffile-prefix-map=$(pwd)/=/"
+  export CXXFLAGS="${CXXFLAGS} -ffile-prefix-map=$(pwd)/=/"
 
   ./configure \
     --prefix=/usr \
@@ -118,7 +121,7 @@ prepare(){
     --enable ODBC_STORAGE \
     --disable codec_speex \
     --enable func_speex  \
-    --disable format_jpeg \
+    --enable cdr_syslog \
     --disable format_siren7 \
     --disable format_siren14 \
     --disable format_g719 \
@@ -136,10 +139,13 @@ prepare(){
     --disable res_speech \
     --disable res_config_ldap \
     --disable res_format_attr_silk \
+    --enable res_snmp \
     --disable app_festival \
     --disable app_mp3 \
     --disable app_ices \
     --disable app_image \
+    --disable app_sms \
+    --enable app_flash \
     --disable astdb2sqlite3 \
     --disable astdb2bdb \
     --disable MOH-OPSOUND-WAV \
@@ -147,10 +153,7 @@ prepare(){
     --disable EXTRA-SOUNDS-EN-WAV \
     --enable EXTRA-SOUNDS-EN-GSM \
     menuselect.makeopts
-}
 
-build(){
-  cd asterisk-${pkgver}
   make
 }
 
